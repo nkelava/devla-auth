@@ -1,0 +1,17 @@
+{
+  "name": "devla-auth-task",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "concurrently 'pnpm --prefix server run lint'",
+    "prepare": "husky install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "husky": "^8.0.3"
+  }
+}
