@@ -9,7 +9,6 @@ services:
     env_file:
       - ./server/.env
     volumes:
-      - ./server/src/database/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
       - mongo-db:/data/db
 
   # Node API service
