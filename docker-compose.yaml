@@ -1,6 +1,17 @@
 version: "3"
 
 services:
+  # MongoDB service
+  mongo:
+    container_name: mongo-db
+    image: mongo:latest
+    restart: always
+    env_file:
+      - ./server/.env
+    volumes:
+      - ./server/src/database/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - mongo-db:/data/db
+
   # Node API service
   api:
     container_name: node-api
@@ -9,9 +20,14 @@ services:
     build:
       context: ./server
       args:
-        - SERVER_PORT=${SERVER_PORT}
+        - SERVER_PORT=3000
     ports:
-      - "3000:${SERVER_PORT}"
+      - "3000:3000"
     volumes:
       - ./server:/app:ro
       - /app/node_modules
+    depends_on:
+      - mongo
+
+volumes:
+  mongo-db: {}
