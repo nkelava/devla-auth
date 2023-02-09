@@ -4,11 +4,14 @@ services:
   # Node API service
   api:
     container_name: node-api
-    build: ./server
+    env_file:
+      - ./server/.env
+    build:
+      context: ./server
+      args:
+        - SERVER_PORT=${SERVER_PORT}
     ports:
       - "3000:${SERVER_PORT}"
     volumes:
       - ./server:/app:ro
       - /app/node_modules
-    env_file:
-      - ./server/.env
