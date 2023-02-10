@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const userRouter = require("./routes/user.route");
+const { userRouter } = require("./user");
 const { DB_USERNAME, DB_PASSWORD, DB_IP, DB_PORT, DB_NAME } = require("./config/config");
 
 const port = process.env.SERVER_PORT || 3000;
@@ -21,7 +21,7 @@ app.use(express.json());
 app.use("/api/v1/users", userRouter);
 
 app.get("/", (_req, resp) => {
-  resp.send("<h1>Hello Universe!!!</h1>");
+  resp.send("<h1>Hello Universe!</h1>");
 });
 
 app.listen(port, () => {
