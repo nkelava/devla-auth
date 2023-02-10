@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const { userRouter } = require("./user");
-const { DB_USERNAME, DB_PASSWORD, DB_IP, DB_PORT, DB_NAME } = require("./config/config");
+const { DB_USERNAME, DB_PASSWORD, DB_IP, DB_PORT, DB_NAME } = require("./config/db.config");
 
 const port = process.env.SERVER_PORT || 3000;
 const mongoURL = `mongodb://${DB_USERNAME}:${DB_PASSWORD}@${DB_IP}:${DB_PORT}/${DB_NAME}`;
