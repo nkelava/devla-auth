@@ -14,13 +14,13 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-UserSchema.pre("save", function (next) {
+UserSchema.pre("save", async function (next) {
   const user = this;
   const saltRounds = 8;
 
   if (!user.isModified("password")) return next();
 
-  user.password = bcrypt.hashSync(user.password, saltRounds);
+  user.password = await bcrypt.hash(user.password, saltRounds);
 
   next();
 });
