@@ -16,7 +16,7 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.pre("save", function (next) {
   const user = this;
-  const saltRounds = 10;
+  const saltRounds = 8;
 
   if (!user.isModified("password")) return next();
 
