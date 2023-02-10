@@ -19,7 +19,7 @@ exports.getUserById = async (req, resp) => {
 
 exports.createUser = async (req, resp) => {
   try {
-    const user = await User.insertOne(req.body);
+    const user = await User.create(req.body);
 
     resp.status(200).json({
       status: "success",
@@ -36,7 +36,7 @@ exports.createUser = async (req, resp) => {
 
 exports.deleteUserById = async (req, resp) => {
   try {
-    await User.deleteOne(req.params.id);
+    await User.findByIdAndDelete(req.params.id);
 
     resp.status(200).json({
       status: "success",
