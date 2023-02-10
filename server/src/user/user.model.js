@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -11,6 +12,17 @@ const UserSchema = new mongoose.Schema({
     require: [true, "User must have password."],
     minLength: [8, "Password is too short."],
   },
+});
+
+UserSchema.pre("save", function (next) {
+  const user = this;
+  const saltRounds = 10;
+
+  if (!user.isModified("password")) return next();
+
+  user.password = bcrypt.hashSync(user.password, saltRounds);
+
+  next();
 });
 
 const User = mongoose.model("User", UserSchema);
