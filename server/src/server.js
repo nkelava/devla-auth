@@ -7,6 +7,7 @@ const mongoURL = `mongodb://${DB_USERNAME}:${DB_PASSWORD}@${DB_IP}:${DB_PORT}/${
 mongoose
   .connect(mongoURL, {
     useNewUrlParser: true,
+    useUnifiedTopology: true,
   })
   .then(() => console.log("Successfully connected to database..."))
   .catch((error) => console.log(error));
