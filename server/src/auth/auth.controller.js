@@ -1,8 +1,8 @@
 const bcrypt = require("bcrypt");
-const { createToken } = require("./auth.helper");
+const { generateToken } = require("./auth.utils");
 const User = require("../user/user.model");
 
-exports.register = async (req, resp) => {
+const register = async (req, resp) => {
   const { email, password } = req.body;
 
   try {
@@ -11,52 +11,47 @@ exports.register = async (req, resp) => {
       password,
     });
 
-    resp.status(201).json({
-      status: "success",
-      user: newUser,
-    });
+    resp.status(201).json({ user: newUser });
   } catch (err) {
-    resp.status(400).json({
-      status: "fail",
-      message: "Registration failed. Try another username or password.",
-    });
+    resp.status(400).json({ message: "Registration failed. Try another username or password." });
   }
 };
 
-// Add middleware before that checks if user exists
-exports.login = async (req, resp) => {
+const login = async (req, resp) => {
   const { email, password } = req.body;
 
   try {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return resp.status(404).json({
-        status: "fail",
-        message: "There is no user with that email and password.",
-      });
+      return resp.status(404).json({ message: "There is no user with that email and password." });
     }
 
     bcrypt.compare(password, user.password).then((result) => {
       if (!result) {
-        resp.status(404).json({
-          status: "fail",
-          message: "There is no user with that email and password.",
-        });
+        return resp.status(404).json({ message: "There is no user with that email and password." });
       }
 
-      const accessToken = createToken(user);
-      resp.cookie("access-token", accessToken, { maxAge: 30000, httpOnly: true });
+      const accessToken = generateToken(user);
+      resp.cookie("access_token", accessToken, { maxAge: 60000, httpOnly: true });
 
-      resp.status(201).json({
-        status: "success",
-        accessToken,
-      });
+      return resp.status(201).json({ accessToken });
     });
   } catch (err) {
-    resp.status(400).json({
-      status: "fail",
-      msg: err.message,
-    });
+    return resp.status(400).json({ msg: err.message });
   }
+};
+
+const status = async (req, resp) => {
+  const { id } = req;
+
+  const user = await User.findOne({ id });
+
+  resp.status(201).json({ user });
+};
+
+module.exports = {
+  register,
+  login,
+  status,
 };
