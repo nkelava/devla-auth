@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-UserSchema.pre("save", async function (next) {
+UserSchema.pre("save", async function preSave(next) {
   const user = this;
   const saltRounds = 8;
 
