@@ -6,7 +6,7 @@ import { useUserStore } from "../stores/user.store";
 const store = useUserStore();
 
 onMounted(async () => {
-  const data = await axios.get(`http://localhost:3000/api/v1/user/${store.user.email}`);
+  const data = await axios.get(`http://localhost:3000/api/v1/user/${store.user?.email}`);
 
   store.user = data.data.user;
 });
