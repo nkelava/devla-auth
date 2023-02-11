@@ -15,20 +15,23 @@ const handleRegister = async () => {
     form.value.error = "Passwords doesn not match.";
     return;
   }
+  try {
+    await axios.post(`http://localhost:3000/api/v1/auth/register`, {
+      email: form.value.email,
+      password: form.value.password,
+    });
 
-  await axios.post(`http://localhost:3000/api/v1/auth/register`, {
-    email: form.value.email,
-    password: form.value.password,
-  });
-
-  router.push("/login");
+    router.push("/login");
+  } catch (error) {
+    form.value.error = error.responese;
+  }
 };
 </script>
 
 <template>
   <div>
     <form @submit.prevent="handleRegister">
-      <div v-if="form.error" class="form-error">
+      <div v-if="form.error">
         {{ form.error }}
       </div>
       <input v-model="form.email" type="email" name="email" placeholder="Enter email..." />
