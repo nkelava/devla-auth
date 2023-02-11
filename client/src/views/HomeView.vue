@@ -1,19 +1,19 @@
 <script setup>
 import axios from "axios";
-import { ref, onMounted } from "vue";
+import { onMounted } from "vue";
+import { useUserStore } from "../stores/user.store";
 
-const user = ref({
-  email: "test@gmail.com",
-});
+const store = useUserStore();
+
 onMounted(async () => {
-  const data = await axios.get(`http://localhost:3000/api/v1/user/${user.value?.email}`);
+  const data = await axios.get(`http://localhost:3000/api/v1/user/${store.user.email}`);
 
-  user.value = data.data.user;
+  store.user = data.data.user;
 });
 </script>
 
 <template>
   <div>
-    <h1>{{ user?.email }}</h1>
+    <h1>{{ store.user?.email }}</h1>
   </div>
 </template>
