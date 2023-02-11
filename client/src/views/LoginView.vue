@@ -11,15 +11,13 @@ const form = ref({
 });
 
 const handleLogin = async () => {
+  axios.defaults.withCredentials = true;
+
   await axios
-    .post(
-      `http://localhost:3000/api/v1/auth/login`,
-      {
-        email: form.value.email,
-        password: form.value.password,
-      },
-      { withCredentials: true }
-    )
+    .post(`http://localhost:3000/api/v1/auth/login`, {
+      email: form.value.email,
+      password: form.value.password,
+    })
     .then((response) => console.log(response.data.accessToken));
 
   router.push("/");
