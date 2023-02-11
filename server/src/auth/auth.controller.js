@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const { createToken } = require("./auth.helper");
 const User = require("../user/user.model");
 
 exports.register = async (req, resp) => {
@@ -28,27 +28,24 @@ exports.login = async (req, resp) => {
   const { email, password } = req.body;
 
   try {
-    const existedUser = await User.findOne({ email });
+    const user = await User.findOne({ email });
 
-    if (!existedUser) {
+    if (!user) {
       return resp.status(404).json({
         status: "fail",
         message: "There is no user with that email and password.",
       });
     }
 
-    bcrypt.compare(password, existedUser.password).then((result) => {
+    bcrypt.compare(password, user.password).then((result) => {
       if (!result) {
         return resp.status(404).json({
           status: "fail",
           message: "There is no user with that email and password.",
         });
       }
-      const user = {
-        id: existedUser.id,
-        email: existedUser.email,
-      };
-      const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+
+      const accessToken = createToken(user);
 
       return resp.status(201).json({
         status: "success",
