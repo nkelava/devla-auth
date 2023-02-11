@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
 const { userRouter } = require("./user");
 const { authRouter } = require("./auth");
@@ -16,9 +17,10 @@ mongoose
 
 const app = express();
 
+app.use(cors({ origin: true }));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use("/api/v1/users", userRouter);
+app.use("/api/v1/user", userRouter);
 app.use("/api/v1/auth", authRouter);
 
 const port = process.env.SERVER_PORT || 3000;
