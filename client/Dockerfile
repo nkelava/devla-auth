@@ -10,6 +10,6 @@ RUN pnpm install
 
 COPY . .
 
-EXPOSE ${DOCKER_SERVER_PORT}
+EXPOSE ${DOCKER_CLIENT_PORT}
 
 CMD ["pnpm", "run", "dev"]

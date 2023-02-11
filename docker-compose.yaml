@@ -18,7 +18,7 @@ services:
     build:
       context: ./server
       args:
-        - SERVER_PORT=${DOCKER_SERVER_PORT}
+        - DOCKER_SERVER_PORT=${DOCKER_SERVER_PORT}
     ports:
       - "${SERVER_PORT}:${DOCKER_SERVER_PORT}"
     env_file:
@@ -29,6 +29,22 @@ services:
       - /app/node_modules
     depends_on:
       - mongo
+
+  client:
+    container_name: vue-client
+    build:
+      context: ./client
+      args:
+        - DOCKER_CLIENT_PORT=${DOCKER_CLIENT_PORT}
+    ports:
+      - "${CLIENT_PORT}:${DOCKER_CLIENT_PORT}"
+    env_file:
+      - .env
+    volumes:
+      - ./client:/app:ro
+      - /app/node_modules
+    depends_on:
+      - api
 
 volumes:
   mongo-db: {}
