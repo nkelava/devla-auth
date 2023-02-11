@@ -1,6 +1,6 @@
 const { sign } = require("jsonwebtoken");
 
-const createToken = (user) => {
+const generateToken = (user) => {
   const userDTO = {
     id: user.id,
     email: user.email,
@@ -10,5 +10,5 @@ const createToken = (user) => {
 };
 
 module.exports = {
-  createToken,
+  createToken: generateToken,
 };
