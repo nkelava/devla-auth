@@ -2,13 +2,15 @@
 import axios from "axios";
 import { ref, onMounted } from "vue";
 
-const user = ref();
+const user = ref({
+  email: "test@gmail.com",
+});
 onMounted(async () => {
-  const data = await axios.get(`http://localhost:3000/api/v1/user/63e79729260e25cdab7d9d1b`);
-  user.value = data.data.data.user;
+  const data = await axios.get(`http://localhost:3000/api/v1/user/${user.value?.email}`);
+
+  user.value = data.data.user;
 });
 </script>
-s
 
 <template>
   <div>

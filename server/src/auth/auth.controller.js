@@ -12,13 +12,12 @@ exports.register = async (req, resp) => {
 
     resp.status(201).json({
       status: "success",
-      data: {
-        user: newUser,
-      },
+      user: newUser,
     });
   } catch (err) {
     resp.status(400).json({
       status: "fail",
+      message: "Registration failed. Try another username or password.",
     });
   }
 };

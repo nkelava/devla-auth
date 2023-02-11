@@ -12,7 +12,7 @@ const form = ref({
 
 const handleRegister = async () => {
   if (form.value.password !== form.value.repeatedPassword) {
-    form.value.error = "Passwords doesn not match.";
+    form.value.error = "Passwords does not match.";
     return;
   }
   try {
@@ -23,7 +23,7 @@ const handleRegister = async () => {
 
     router.push("/login");
   } catch (error) {
-    form.value.error = error.responese;
+    form.value.error = error.response.data.message;
   }
 };
 </script>

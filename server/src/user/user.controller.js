@@ -2,13 +2,11 @@ const User = require("./user.model");
 
 exports.getUserById = async (req, resp) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findOne({ email: req.params.id });
 
     resp.status(200).json({
       status: "success",
-      data: {
-        user,
-      },
+      user,
     });
   } catch (err) {
     resp.status(400).json({
@@ -23,9 +21,7 @@ exports.createUser = async (req, resp) => {
 
     resp.status(200).json({
       status: "success",
-      data: {
-        user,
-      },
+      user,
     });
   } catch (err) {
     resp.status(400).json({
