@@ -27,13 +27,17 @@ const login = async (req, resp) => {
       return resp.status(404).json({ message: "There is no user with that email and password." });
     }
 
-    bcrypt.compare(password, user.password).then((result) => {
+    bcrypt.compare(password, user.password).then(async (result) => {
       if (!result) {
         return resp.status(404).json({ message: "There is no user with that email and password." });
       }
 
-      const accessToken = generateToken(user);
-      resp.cookie("access_token", accessToken, { maxAge: 60000, httpOnly: true });
+      const accessToken = generateToken(user, process.env.ACCESS_TOKEN_SECRET, "30s");
+      const refreshToken = generateToken(user, process.env.REFRESH_TOKEN_SECRET, "1d");
+
+      await User.findOneAndUpdate({ email }, { refreshToken }, { new: true });
+
+      resp.cookie("refresh_token", refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
 
       return resp.status(201).json({ accessToken });
     });
