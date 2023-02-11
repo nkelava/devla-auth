@@ -39,15 +39,16 @@ exports.login = async (req, resp) => {
 
     bcrypt.compare(password, user.password).then((result) => {
       if (!result) {
-        return resp.status(404).json({
+        resp.status(404).json({
           status: "fail",
           message: "There is no user with that email and password.",
         });
       }
 
       const accessToken = createToken(user);
+      resp.cookie("access-token", accessToken, { maxAge: 30000, httpOnly: true });
 
-      return resp.status(201).json({
+      resp.status(201).json({
         status: "success",
         accessToken,
       });
