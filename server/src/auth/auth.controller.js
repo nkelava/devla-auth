@@ -47,6 +47,10 @@ const login = async (req, resp) => {
   }
 };
 
+const logout = (req, resp) => {
+  resp.send(201);
+};
+
 const status = async (req, resp) => {
   const { id } = req;
 
@@ -58,5 +62,6 @@ const status = async (req, resp) => {
 module.exports = {
   register,
   login,
+  logout,
   status,
 };
