@@ -38,6 +38,7 @@ const login = async (req, resp) => {
       await User.findOneAndUpdate({ email }, { refreshToken }, { new: true });
 
       resp.cookie("refresh_token", refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+      resp.cookie("access_token", accessToken, { httpOnly: true, maxAge: 30 * 1000 });
 
       return resp.status(201).json({ accessToken });
     });
