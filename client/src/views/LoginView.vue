@@ -1,30 +1,27 @@
 <script setup>
 import { ref } from "vue";
-import axios from "axios";
 import { useRouter } from "vue-router";
+import { useUserStore } from "../stores/user.store";
+import { RouterLink } from "vue-router";
 
 const router = useRouter();
-
+const userStore = useUserStore();
 const form = ref({
   email: "",
   password: "",
 });
 
 const handleLogin = async () => {
-  axios.defaults.withCredentials = true;
-
-  await axios
-    .post(`http://localhost:3000/api/v1/auth/login`, {
-      email: form.value.email,
-      password: form.value.password,
-    })
-    .then((response) => console.log(response.data.accessToken));
+  await userStore.loginUser(form.value);
 
   router.push("/");
 };
 </script>
 
 <template>
+  <RouterLink :to="{ name: 'register' }" class="nav-item">Register</RouterLink>
+  <h1>Login</h1>
+
   <div>
     <form @submit.prevent="handleLogin">
       <input v-model="form.email" type="email" name="email" placeholder="Enter email..." />
@@ -33,3 +30,13 @@ const handleLogin = async () => {
     </form>
   </div>
 </template>
+
+<style setup>
+h1 {
+  margin: 10px 20px;
+}
+
+form {
+  margin-left: 20px;
+}
+</style>
