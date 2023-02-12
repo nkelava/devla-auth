@@ -5,16 +5,12 @@ const validateToken = (req, resp, next) => {
 
   if (!accessToken) return resp.status(401).json({ error: "Not Authenticated." });
 
-  try {
-    const validTokenData = verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+  verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+    if (err) return resp.sendStatus(403);
 
-    if (validTokenData) {
-      req.id = validTokenData.id;
-      return next();
-    }
-  } catch (err) {
-    return resp.status(400).json({ error: err });
-  }
+    req.id = decoded.id;
+    next();
+  });
 };
 
 module.exports = {
