@@ -50,13 +50,6 @@ const login = async (req, resp) => {
         secure: true,
         maxAge: 24 * 60 * 60 * 1000,
       });
-      // TODO: delete later on because it is save on client
-      resp.cookie("access_token", accessToken, {
-        httpOnly: true,
-        sameSite: "None",
-        secure: true,
-        maxAge: 30 * 1000,
-      });
 
       const userDTO = {
         id: user.id,
@@ -79,7 +72,6 @@ const logout = async (req, resp) => {
 
   if (!user) {
     resp.clearCookie("refresh_token", { httpOnly: true, sameSite: "None", secure: true });
-    resp.clearCookie("access_token", { httpOnly: true, sameSite: "None", secure: true });
     return resp.sendStatus(204);
   }
 
@@ -90,17 +82,20 @@ const logout = async (req, resp) => {
   );
 
   resp.clearCookie("refresh_token", { httpOnly: true, sameSite: "None", secure: true });
-  // TODO: delete later on because it is save on client
-  resp.clearCookie("access_token", { httpOnly: true, sameSite: "None", secure: true });
   resp.sendStatus(204);
 };
 
 const status = async (req, resp) => {
-  const { id } = req;
+  try {
+    const { id } = req;
+    const user = await User.findOne({ id });
 
-  const user = await User.findOne({ id });
+    if (!user) resp.status(404).json({ error: "Not found." });
 
-  resp.status(201).json({ user });
+    resp.status(201).json({ user });
+  } catch (error) {
+    resp.status(400).json({ error: "Bad request." });
+  }
 };
 
 module.exports = {
