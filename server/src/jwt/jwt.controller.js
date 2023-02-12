@@ -5,7 +5,7 @@ const { generateToken } = require("./jwt.utils");
 const handleRefreshToken = async (req, resp) => {
   const refreshToken = req.cookies.refresh_token;
 
-  if (!refreshToken) return resp.status(401);
+  if (!refreshToken) return resp.sendStatus(401);
 
   const user = await User.findOne({ refreshToken });
 
