@@ -1,9 +1,9 @@
-import { createApp } from "vue";
-import { createPinia } from "pinia";
-import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
-
 import App from "./App.vue";
 import router from "./router";
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import "./axios.config";
 
 import "./assets/main.css";
 
