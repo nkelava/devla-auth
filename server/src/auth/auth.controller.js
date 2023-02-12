@@ -47,8 +47,22 @@ const login = async (req, resp) => {
   }
 };
 
-const logout = (req, resp) => {
-  resp.send(201);
+const logout = async (req, resp) => {
+  const refreshToken = req.cookies.refresh_token;
+
+  if (!refreshToken) return resp.sendStatus(204);
+
+  const user = User.findOne({ refreshToken });
+
+  if (!user) {
+    resp.clearCookie("refresh_token", { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+    return resp.sendStatus(204);
+  }
+
+  await User.findOneAndUpdate({ id: user.id }, { refreshToken: undefined }, { new: true });
+
+  resp.clearCookie("refresh_token", { http: true, maxAge: 30 * 1000 });
+  resp.sendStatus(204);
 };
 
 const status = async (req, resp) => {
