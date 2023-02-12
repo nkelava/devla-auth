@@ -25,7 +25,7 @@ const login = async (req, resp) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return resp.status(404).json({ message: "There is no user with that email and password." });
+      return resp.status(404).json({ message: "Account with those credentials doesn't exist." });
     }
 
     bcrypt.compare(password, user.password).then(async (result) => {
@@ -73,7 +73,12 @@ const login = async (req, resp) => {
         maxAge: 30 * 1000,
       });
 
-      return resp.status(201).json({ accessToken });
+      const userDTO = {
+        id: user.id,
+        email: user.email,
+      };
+
+      return resp.status(201).json({ user: userDTO, accessToken });
     });
   } catch (err) {
     return resp.status(400).json({ msg: err.message });
