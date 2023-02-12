@@ -2,11 +2,17 @@ const User = require("./user.model");
 
 exports.getUserById = async (req, resp) => {
   try {
-    const user = await User.findOne({ email: req.params.id });
+    const { id } = req.params;
+    const user = await User.findOne({ _id: id });
 
     if (!user) resp.status(404).json({ error: "Account does not exist." });
 
-    resp.status(200).json({ user });
+    const userDTO = {
+      id: user.id,
+      email: user.email,
+    };
+
+    resp.status(200).json({ user: userDTO });
   } catch (err) {
     resp.status(400).json({ error: "Bad request." });
   }
