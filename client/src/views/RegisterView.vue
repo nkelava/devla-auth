@@ -16,7 +16,7 @@ const handleRegister = async () => {
     return;
   }
   try {
-    await axios.post(`http://localhost:3000/api/v1/user`, {
+    await axios.post(`api/v1/user`, {
       email: form.value.email,
       password: form.value.password,
     });

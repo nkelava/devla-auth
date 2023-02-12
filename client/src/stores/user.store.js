@@ -15,7 +15,7 @@ export const useUserStore = defineStore("user", {
     async getUser() {
       if (this.authUser === null) return;
 
-      const data = await axios.get(`http://localhost:3000/api/v1/user/${this.authUser.id}`);
+      const data = await axios.get(`api/v1/user/${this.authUser.id}`);
 
       this.authUser = data.data.user;
     },
@@ -23,10 +23,12 @@ export const useUserStore = defineStore("user", {
     async loginUser({ email, password }) {
       axios.defaults.withCredentials = true;
 
-      const data = await axios.post(`http://localhost:3000/api/v1/auth/login`, {
+      const data = await axios.post(`api/v1/auth/login`, {
         email,
         password,
       });
+
+      axios.defaults.headers.common["Authorization"] = "Bearer " + data.data.accessToken;
 
       this.authUser = data.data.user;
       this.accessToken = data.data.accessToken;
