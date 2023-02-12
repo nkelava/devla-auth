@@ -22,6 +22,7 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
+app.use("/api/v1/jwt");
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/auth", authRouter);
 
