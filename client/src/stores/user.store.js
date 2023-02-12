@@ -2,10 +2,12 @@ import axios from "axios";
 import { defineStore } from "pinia";
 
 export const useUserStore = defineStore("user", {
-  state: () => ({
-    authUser: null,
-    access_token: null,
-  }),
+  state: () => {
+    return {
+      authUser: "",
+      accessToken: "",
+    };
+  },
   getters: {
     user: (state) => state.authUser,
   },
@@ -27,7 +29,8 @@ export const useUserStore = defineStore("user", {
       });
 
       this.authUser = data.data.user;
-      this.access_token = data.data.accessToken;
+      this.accessToken = data.data.accessToken;
     },
   },
+  persist: true,
 });
