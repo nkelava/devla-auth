@@ -12,6 +12,9 @@ const UserSchema = new mongoose.Schema({
     require: [true, "User must have password."],
     minLength: [8, "Password is too short."],
   },
+  refreshToken: {
+    type: String,
+  },
 });
 
 UserSchema.pre("save", async function preSave(next) {
