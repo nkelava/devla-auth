@@ -21,8 +21,8 @@ onMounted(async () => {
   </div>
 </template>
 
-<style>
+<style setup>
 .nav-item {
-  margin: 20px;
+  margin: 30px;
 }
 </style>

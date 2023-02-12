@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
-import { useRouter } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 
 const router = useRouter();
 const form = ref({
@@ -12,24 +12,26 @@ const form = ref({
 
 const handleRegister = async () => {
   if (form.value.password !== form.value.repeatedPassword) {
-    form.value.error = "Passwords does not match.";
+    form.value.error = "Passwords do not match.";
     return;
   }
   try {
-    await axios.post(`http://localhost:3000/api/v1/auth/register`, {
+    await axios.post(`http://localhost:3000/api/v1/user`, {
       email: form.value.email,
       password: form.value.password,
     });
 
     router.push("/login");
   } catch (error) {
-    form.value.error = error.response.data.message;
+    form.value.error = error.response.data.error;
   }
 };
 </script>
 
 <template>
   <div>
+    <h1>Register</h1>
+
     <form @submit.prevent="handleRegister">
       <div v-if="form.error">
         {{ form.error }}
@@ -39,5 +41,27 @@ const handleRegister = async () => {
       <input v-model="form.repeatedPassword" type="password" name="password" placeholder="Repeat password..." />
       <button type="submit">Register</button>
     </form>
+
+    <RouterLink :to="{ name: 'login' }" class="nav-item">Login</RouterLink>
   </div>
 </template>
+
+<style setup>
+h1 {
+  margin: 10px 30px;
+}
+
+form {
+  margin-left: 20px;
+}
+
+input,
+button {
+  display: block;
+  margin: 10px;
+}
+
+.nav-item {
+  margin-left: 30px;
+}
+</style>

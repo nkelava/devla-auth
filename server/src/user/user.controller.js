@@ -20,29 +20,30 @@ exports.getUserById = async (req, resp) => {
 
 exports.createUser = async (req, resp) => {
   try {
-    const user = await User.create(req.body);
+    const { email, password } = req.body;
 
-    resp.status(200).json({
-      status: "success",
-      user,
+    if (!email || !password) return resp.status(400).json({ error: "Please make sure to enter all the data." });
+
+    const newUser = await User.create({
+      email,
+      password,
     });
+
+    resp.status(201).json({ user: newUser });
   } catch (err) {
-    resp.status(400).json({
-      status: "fail",
-    });
+    resp.status(400).json({ error: "Oops. Please, try again with another email." });
   }
 };
 
 exports.deleteUserById = async (req, resp) => {
   try {
-    await User.findByIdAndDelete(req.params.id);
+    const { id } = req.params;
+    const user = await User.findByIdAndDelete(id);
 
-    resp.status(200).json({
-      status: "success",
-    });
+    if (!user) return resp.sendStatus(400);
+
+    resp.sendStatus(204);
   } catch (err) {
-    resp.status(400).json({
-      status: "fail",
-    });
+    resp.status(400).json({ status: "Bad request." });
   }
 };

@@ -1,8 +1,7 @@
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import { useUserStore } from "../stores/user.store";
-import { RouterLink } from "vue-router";
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -19,7 +18,6 @@ const handleLogin = async () => {
 </script>
 
 <template>
-  <RouterLink :to="{ name: 'register' }" class="nav-item">Register</RouterLink>
   <h1>Login</h1>
 
   <div>
@@ -29,14 +27,26 @@ const handleLogin = async () => {
       <button type="submit">Login</button>
     </form>
   </div>
+
+  <RouterLink :to="{ name: 'register' }" class="nav-item">Register</RouterLink>
 </template>
 
 <style setup>
 h1 {
-  margin: 10px 20px;
+  margin: 10px 30px;
 }
 
 form {
   margin-left: 20px;
+}
+
+input,
+button {
+  display: block;
+  margin: 10px;
+}
+
+.nav-item {
+  margin: 30px;
 }
 </style>
