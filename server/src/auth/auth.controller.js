@@ -19,6 +19,7 @@ const register = async (req, resp) => {
 
 const login = async (req, resp) => {
   const { email, password } = req.body;
+  const { cookies } = req;
 
   try {
     const user = await User.findOne({ email });
@@ -33,16 +34,38 @@ const login = async (req, resp) => {
       }
 
       const accessToken = generateToken(user, process.env.ACCESS_TOKEN_SECRET, "30s");
-      const refreshToken = generateToken(user, process.env.REFRESH_TOKEN_SECRET, "1d");
+      const newRefreshToken = generateToken(user, process.env.REFRESH_TOKEN_SECRET, "1d");
 
-      await User.findOneAndUpdate({ email }, { refreshToken }, { new: true });
+      // await User.findOneAndUpdate({ email }, { newRefreshToken }, { new: true });
+      let newRefreshTokenArray = !cookies
+        ? user.refreshToken
+        : user.refreshToken.filter((token) => token !== cookies.refresh_token);
 
-      resp.cookie("refresh_token", refreshToken, {
+      if (cookies?.refresh_token) {
+        const refreshToken = cookies.refresh_token;
+        const token = User.findOne({ refreshToken }).exec();
+
+        // Detect refresh token reuse
+        if (!token) {
+          newRefreshTokenArray = [];
+        }
+
+        resp.clearCookie("refresh_token", { httpOnly: true, sameSite: "None", secure: true });
+      }
+
+      await User.findOneAndUpdate(
+        { email },
+        { refreshToken: [...newRefreshTokenArray, newRefreshToken] },
+        { new: true }
+      );
+
+      resp.cookie("refresh_token", newRefreshToken, {
         httpOnly: true,
         sameSite: "None",
         secure: true,
         maxAge: 24 * 60 * 60 * 1000,
       });
+      // TODO: delete later on because it is save on client
       resp.cookie("access_token", accessToken, {
         httpOnly: true,
         sameSite: "None",
@@ -70,9 +93,14 @@ const logout = async (req, resp) => {
     return resp.sendStatus(204);
   }
 
-  await User.findOneAndUpdate({ id: user.id }, { refreshToken: undefined }, { new: true });
+  await User.findOneAndUpdate(
+    { id: user.id },
+    { refreshToken: user.refreshToken.filter((token) => token !== refreshToken) },
+    { new: true }
+  );
 
-  resp.clearCookie("refresh_token", { http: true, maxAge: 30 * 1000 });
+  resp.clearCookie("refresh_token", { httpOnly: true, sameSite: "None", secure: true });
+  // TODO: delete later on because it is save on client
   resp.clearCookie("access_token", { httpOnly: true, sameSite: "None", secure: true });
   resp.sendStatus(204);
 };
