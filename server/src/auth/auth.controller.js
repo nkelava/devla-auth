@@ -2,21 +2,6 @@ const bcrypt = require("bcrypt");
 const { generateToken } = require("../jwt/jwt.utils");
 const User = require("../user/user.model");
 
-const register = async (req, resp) => {
-  const { email, password } = req.body;
-
-  try {
-    const newUser = await User.create({
-      email,
-      password,
-    });
-
-    resp.status(201).json({ user: newUser });
-  } catch (err) {
-    resp.status(400).json({ message: "Registration failed. Try another username or password." });
-  }
-};
-
 const login = async (req, resp) => {
   const { email, password } = req.body;
   const { cookies } = req;
@@ -119,7 +104,6 @@ const status = async (req, resp) => {
 };
 
 module.exports = {
-  register,
   login,
   logout,
   status,
