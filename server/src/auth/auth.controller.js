@@ -37,8 +37,18 @@ const login = async (req, resp) => {
 
       await User.findOneAndUpdate({ email }, { refreshToken }, { new: true });
 
-      resp.cookie("refresh_token", refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
-      resp.cookie("access_token", accessToken, { httpOnly: true, maxAge: 30 * 1000 });
+      resp.cookie("refresh_token", refreshToken, {
+        httpOnly: true,
+        sameSite: "None",
+        secure: true,
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+      resp.cookie("access_token", accessToken, {
+        httpOnly: true,
+        sameSite: "None",
+        secure: true,
+        maxAge: 30 * 1000,
+      });
 
       return resp.status(201).json({ accessToken });
     });
@@ -55,13 +65,15 @@ const logout = async (req, resp) => {
   const user = User.findOne({ refreshToken });
 
   if (!user) {
-    resp.clearCookie("refresh_token", { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+    resp.clearCookie("refresh_token", { httpOnly: true, sameSite: "None", secure: true });
+    resp.clearCookie("access_token", { httpOnly: true, sameSite: "None", secure: true });
     return resp.sendStatus(204);
   }
 
   await User.findOneAndUpdate({ id: user.id }, { refreshToken: undefined }, { new: true });
 
   resp.clearCookie("refresh_token", { http: true, maxAge: 30 * 1000 });
+  resp.clearCookie("access_token", { httpOnly: true, sameSite: "None", secure: true });
   resp.sendStatus(204);
 };
 
