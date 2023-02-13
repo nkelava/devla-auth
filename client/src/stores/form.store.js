@@ -5,6 +5,7 @@ export function createFormStore(formName, fields) {
     state: () => {
       return {
         ...fields,
+        initState: { ...fields },
       };
     },
     persist: true,
