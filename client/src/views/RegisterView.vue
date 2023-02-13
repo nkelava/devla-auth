@@ -1,29 +1,25 @@
 <script setup>
-import { ref } from "vue";
 import axios from "axios";
 import { RouterLink, useRouter } from "vue-router";
+import { useRegisterStore } from "../stores/form.store";
 
 const router = useRouter();
-const form = ref({
-  email: "",
-  password: "",
-  repeatedPassword: "",
-});
+const registerStore = useRegisterStore();
 
 const handleRegister = async () => {
-  if (form.value.password !== form.value.repeatedPassword) {
-    form.value.error = "Passwords do not match.";
+  if (registerStore.password !== registerStore.repeatedPassword) {
+    registerStore.error = "Passwords do not match.";
     return;
   }
   try {
     await axios.post(`api/v1/user`, {
-      email: form.value.email,
-      password: form.value.password,
+      email: registerStore.email,
+      password: registerStore.password,
     });
 
     router.push("/login");
   } catch (error) {
-    form.value.error = error.response.data.error;
+    registerStore.error = error.response.data.error;
   }
 };
 </script>
@@ -33,12 +29,17 @@ const handleRegister = async () => {
     <h1>Register</h1>
 
     <form @submit.prevent="handleRegister">
-      <div v-if="form.error">
-        {{ form.error }}
+      <div v-if="registerStore.error">
+        {{ registerStore.error }}
       </div>
-      <input v-model="form.email" type="email" name="email" placeholder="Enter email..." />
-      <input v-model="form.password" type="password" name="password" placeholder="Enter password..." />
-      <input v-model="form.repeatedPassword" type="password" name="password" placeholder="Repeat password..." />
+      <input v-model="registerStore.email" type="email" name="email" placeholder="Enter email..." />
+      <input v-model="registerStore.password" type="password" name="password" placeholder="Enter password..." />
+      <input
+        v-model="registerStore.repeatedPassword"
+        type="password"
+        name="password"
+        placeholder="Repeat password..."
+      />
       <button type="submit">Register</button>
     </form>
 
