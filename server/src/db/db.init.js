@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-undef
+/* eslint-disable no-undef */
 db.createUser({
   user: process.env.MONGO_INITDB_ROOT_USERNAME,
   pwd: process.env.MONGO_INITDB_ROOT_PASSWORD,
@@ -10,5 +10,4 @@ db.createUser({
   ],
 });
 
-// eslint-disable-next-line no-undef
 db.createCollection("users");
