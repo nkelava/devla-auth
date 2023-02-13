@@ -26,11 +26,6 @@ export const useUserStore = defineStore("user", {
 
       this.user = data.data.user;
     },
-    async updateAccessToken(newAccessToken) {
-      this.user.accessToken = newAccessToken;
-
-      axios.defaults.headers.common["Authorization"] = "Bearer " + this.user.accessToken;
-    },
   },
   persist: true,
 });
