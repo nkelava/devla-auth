@@ -5,7 +5,7 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 import "./axios.config";
 
-import "./assets/main.css";
+import "./assets/styles/main.css";
 
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
