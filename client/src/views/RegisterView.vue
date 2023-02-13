@@ -1,7 +1,7 @@
 <script setup>
 import axios from "axios";
 import { RouterLink, useRouter } from "vue-router";
-import { useRegisterStore } from "../stores/form.store";
+import { useRegisterStore } from "../stores";
 
 const router = useRouter();
 const registerStore = useRegisterStore();
@@ -20,7 +20,8 @@ const handleRegister = async () => {
     registerStore.$reset();
     router.push("/login");
   } catch (error) {
-    registerStore.error = error.response.data.error;
+    console.log(error.response);
+    // registerStore.error = error.response;
   }
 };
 </script>

@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted } from "vue";
-import { useUserStore } from "@/stores/user.store";
+import { useUserStore } from "@/stores";
 import { useRouter } from "vue-router";
 import profileImage from "@/assets/images/the_goat.png";
 

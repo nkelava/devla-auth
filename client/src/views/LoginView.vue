@@ -1,18 +1,17 @@
 <script setup>
-import { ref } from "vue";
 import { RouterLink, useRouter } from "vue-router";
-import { useUserStore } from "../stores/user.store";
+import { useUserStore, useLoginStore } from "../stores";
 
 const router = useRouter();
 const userStore = useUserStore();
-const form = ref({
-  email: "",
-  password: "",
-});
+const loginStore = useLoginStore();
 
 const handleLogin = async () => {
-  await userStore.loginUser(form.value);
+  const { email, password } = loginStore;
 
+  await userStore.loginUser({ email, password });
+
+  loginStore.$reset();
   router.push("/");
 };
 </script>
@@ -20,16 +19,20 @@ const handleLogin = async () => {
 <template>
   <div class="da-container">
     <div class="da-form-container">
+      <div v-if="loginStore.error">
+        {{ loginStore.error }}
+      </div>
+
       <h2>Login</h2>
 
       <form @submit.prevent="handleLogin">
         <div class="da-input-wrapper">
-          <input v-model="form.email" type="email" name="email" required />
+          <input v-model="loginStore.email" type="email" name="email" required />
           <span>Email</span>
           <i></i>
         </div>
         <div class="da-input-wrapper">
-          <input v-model="form.password" type="password" name="password" required />
+          <input v-model="loginStore.password" type="password" name="password" required />
           <span>Password</span>
           <i></i>
         </div>
