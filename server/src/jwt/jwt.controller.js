@@ -7,7 +7,7 @@ const handleRefreshToken = async (req, resp) => {
 
   if (!refreshToken) return resp.sendStatus(401);
 
-  resp.clearCookie("refresh_token", { http: true, maxAge: 30 * 1000 });
+  resp.clearCookie("refresh_token", { http: true, sameSite: "None", secure: true });
 
   const user = await User.findOne({ refreshToken });
 
