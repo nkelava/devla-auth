@@ -18,35 +18,24 @@ const handleLogin = async () => {
 </script>
 
 <template>
-  <h1>Login</h1>
+  <div class="da-form-container">
+    <h2>Login</h2>
 
-  <div>
     <form @submit.prevent="handleLogin">
-      <input v-model="form.email" type="email" name="email" placeholder="Enter email..." />
-      <input v-model="form.password" type="password" name="password" placeholder="Enter password..." />
-      <button type="submit">Login</button>
+      <div class="da-input-wrapper">
+        <input v-model="form.email" type="email" name="email" required />
+        <span>Email</span>
+        <i></i>
+      </div>
+      <div class="da-input-wrapper">
+        <input v-model="form.password" type="password" name="password" required />
+        <span>Password</span>
+        <i></i>
+      </div>
+      <input type="submit" value="Login" />
+      <div class="da-link-wrapper">
+        <RouterLink class="link da-link" :to="{ name: 'register' }">Don't have an account? Sign up</RouterLink>
+      </div>
     </form>
   </div>
-
-  <RouterLink :to="{ name: 'register' }" class="nav-item">Register</RouterLink>
 </template>
-
-<style setup>
-h1 {
-  margin: 10px 30px;
-}
-
-form {
-  margin-left: 20px;
-}
-
-input,
-button {
-  display: block;
-  margin: 10px;
-}
-
-.nav-item {
-  margin: 30px;
-}
-</style>
