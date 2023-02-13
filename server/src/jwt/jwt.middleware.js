@@ -1,5 +1,4 @@
 const { verify } = require("jsonwebtoken");
-// const { handleRefreshToken } = require("./jwt.controller");
 
 const validateToken = (req, resp, next) => {
   const authHeader = req.headers.authorization || req.headers.Authorization;
