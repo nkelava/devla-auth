@@ -20,6 +20,16 @@ const handleLogout = async () => {
     console.log(error);
   }
 };
+
+const handleDelete = async () => {
+  try {
+    await userStore.deleteUser();
+
+    router.push({ name: "login" });
+  } catch (error) {
+    console.log(error);
+  }
+};
 </script>
 
 <template>
@@ -38,6 +48,7 @@ const handleLogout = async () => {
       </div>
       <div class="buttons">
         <input class="button" type="submit" :onclick="handleLogout" value="Logout" />
+        <input class="button btn-delete" type="submit" :onclick="handleDelete" value="Delete Account" />
       </div>
     </div>
   </div>
@@ -49,8 +60,7 @@ const handleLogout = async () => {
   background: var(--color-background-soft);
 }
 
-.card-container,
-.da-container {
+.card-container {
   border-radius: 25px;
 }
 

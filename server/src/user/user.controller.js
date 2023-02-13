@@ -38,7 +38,7 @@ exports.createUser = async (req, resp) => {
 exports.deleteUserById = async (req, resp) => {
   try {
     const { id } = req.params;
-    const user = await User.findByIdAndDelete(id);
+    const user = await User.findByIdAndDelete({ _id: id });
 
     if (!user) return resp.sendStatus(400);
 
