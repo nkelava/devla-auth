@@ -23,9 +23,10 @@ const handleLogout = async () => {
 </script>
 
 <template>
+  <h1>Home</h1>
+
   <div v-if="userStore.user">
-    <RouterLink :to="{ name: 'home' }" class="nav-item">Home</RouterLink>
-    <h1>{{ userStore.user.email }}</h1>
+    <h2>{{ userStore.user.email }}</h2>
   </div>
   <div v-else>
     <RouterLink :to="{ name: 'login' }" class="nav-item">Login</RouterLink>
@@ -38,10 +39,14 @@ const handleLogout = async () => {
 <style setup>
 .nav-item,
 h1 {
+  margin: 30px;
+}
+
+h2 {
   margin-left: 30px;
 }
 
 button {
-  margin: 30px;
+  margin: 10px 30px;
 }
 </style>
