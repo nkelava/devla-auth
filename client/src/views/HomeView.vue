@@ -29,24 +29,9 @@ const handleLogout = async () => {
     <h2>{{ userStore.user.email }}</h2>
   </div>
   <div v-else>
-    <RouterLink :to="{ name: 'login' }" class="nav-item">Login</RouterLink>
-    <RouterLink :to="{ name: 'register' }" class="nav-item">Register</RouterLink>
+    <RouterLink :to="{ name: 'login' }">Login</RouterLink>
+    <RouterLink :to="{ name: 'register' }">Register</RouterLink>
   </div>
 
   <button :onclick="handleLogout">Logout</button>
 </template>
-
-<style setup>
-.nav-item,
-h1 {
-  margin: 30px;
-}
-
-h2 {
-  margin-left: 30px;
-}
-
-button {
-  margin: 10px 30px;
-}
-</style>
