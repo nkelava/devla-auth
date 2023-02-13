@@ -1,7 +1,8 @@
 <script setup>
 import { onMounted } from "vue";
-import { useUserStore } from "../stores/user.store";
-import { RouterLink, useRouter } from "vue-router";
+import { useUserStore } from "@/stores/user.store";
+import { useRouter } from "vue-router";
+import profileImage from "@/assets/images/the_goat.png";
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -16,22 +17,131 @@ const handleLogout = async () => {
 
     router.push({ name: "login" });
   } catch (error) {
-    console.log("first");
     console.log(error);
   }
 };
 </script>
 
 <template>
-  <h1>Home</h1>
-
-  <div v-if="userStore.user">
-    <h2>{{ userStore.user.email }}</h2>
+  <div class="card-container">
+    <div class="card">
+      <div class="image-content">
+        <span class="overlay"></span>
+        <div class="card-image-wrapper">
+          <img :src="profileImage" alt="profile image" class="card-image" />
+        </div>
+      </div>
+      <div class="card-content">
+        <div v-if="userStore.user">
+          <h2 class="card-content__item">{{ userStore.user.email }}</h2>
+        </div>
+      </div>
+      <div class="buttons">
+        <input class="button" type="submit" :onclick="handleLogout" value="Logout" />
+      </div>
+    </div>
   </div>
-  <div v-else>
-    <RouterLink :to="{ name: 'login' }">Login</RouterLink>
-    <RouterLink :to="{ name: 'register' }">Register</RouterLink>
-  </div>
-
-  <button :onclick="handleLogout">Logout</button>
 </template>
+
+<style>
+.card {
+  border-radius: 25px;
+  background: var(--color-background-soft);
+}
+
+.card-container,
+.da-container {
+  border-radius: 25px;
+}
+
+.image-content,
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 14px;
+}
+
+.card-content {
+  padding: 50px;
+}
+
+.image-content {
+  padding: 25px 0;
+  position: relative;
+  row-gap: 5px;
+}
+
+.overlay {
+  background-color: var(--color-heading);
+  border-radius: 25px 25px 0 25px;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+
+.overlay::before,
+.overlay::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -40px;
+  height: 40px;
+  width: 40px;
+  background-color: var(--color-heading);
+}
+
+.overlay::after {
+  border-radius: 0 25px 0 0;
+  background-color: var(--color-background-soft);
+}
+
+.card-image-wrapper {
+  position: relative;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  background-color: var(--color-background-soft);
+  padding: 3px;
+}
+
+.card-image-wrapper .card-image {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 6px solid;
+  border-color: var(--color-background-soft);
+}
+
+.card-content__item {
+  color: var(--color-text);
+}
+
+.buttons {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  bottom: -40px;
+}
+
+.button {
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  margin: 14px;
+  color: white;
+  background-color: var(--color-heading);
+  width: 150px;
+}
+
+.btn-delete {
+  background-color: coral;
+}
+
+.button:hover {
+  opacity: 0.8;
+}
+</style>
