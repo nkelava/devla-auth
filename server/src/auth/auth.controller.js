@@ -21,7 +21,6 @@ const login = async (req, resp) => {
       const accessToken = generateToken(user, process.env.ACCESS_TOKEN_SECRET, "30s");
       const newRefreshToken = generateToken(user, process.env.REFRESH_TOKEN_SECRET, "1d");
 
-      // await User.findOneAndUpdate({ email }, { newRefreshToken }, { new: true });
       let newRefreshTokenArray = !cookies
         ? user.refreshToken
         : user.refreshToken.filter((token) => token !== cookies.refresh_token);
@@ -71,16 +70,14 @@ const logout = async (req, resp) => {
 
   const user = await User.findOne({ refreshToken });
 
-  if (!user) {
-    resp.clearCookie("refresh_token", { httpOnly: true, sameSite: "None", secure: true });
-    return resp.sendStatus(204);
+  // Check if refresh token is in database
+  if (user) {
+    await User.findOneAndUpdate(
+      { _id: user.id },
+      { refreshToken: user.refreshToken.filter((token) => token !== refreshToken) },
+      { new: true }
+    );
   }
-
-  await User.findOneAndUpdate(
-    { _id: user.id },
-    { refreshToken: user.refreshToken.filter((token) => token !== refreshToken) },
-    { new: true }
-  );
 
   resp.clearCookie("refresh_token", { httpOnly: true, sameSite: "None", secure: true });
   resp.sendStatus(204);
