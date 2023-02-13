@@ -10,12 +10,12 @@ const login = async (req, resp) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return resp.status(404).json({ message: "Account with those credentials doesn't exist." });
+      return resp.status(404).json({ error: "Account with those credentials does not exist." });
     }
 
-    bcrypt.compare(password, user.password).then(async (result) => {
-      if (!result) {
-        return resp.status(404).json({ message: "There is no user with that email and password." });
+    bcrypt.compare(password, user.password).then(async (isEqual) => {
+      if (!isEqual) {
+        return resp.status(404).json({ error: "Account with those credentials does not exist." });
       }
 
       const accessToken = generateToken(user, process.env.ACCESS_TOKEN_SECRET, "30s");
@@ -59,7 +59,7 @@ const login = async (req, resp) => {
       return resp.status(201).json({ user: userDTO, accessToken });
     });
   } catch (err) {
-    return resp.status(400).json({ msg: err.message });
+    return resp.status(400).json({ error: err.message });
   }
 };
 
