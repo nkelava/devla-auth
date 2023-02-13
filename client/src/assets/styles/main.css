@@ -133,7 +133,7 @@
   font-size: 0.75em;
 }
 
-input[type="submit"] {
+.da-form-container form input[type="submit"] {
   border: none;
   outline: none;
   background: var(--color-heading);
@@ -145,7 +145,7 @@ input[type="submit"] {
   cursor: pointer;
 }
 
-input[type="submit"]:active {
+.da-form-container form input[type="submit"]:active {
   color: var(--color-text);
   transform: scale(1.03);
   opacity: 0.9;
