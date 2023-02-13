@@ -54,9 +54,10 @@ const login = async (req, resp) => {
       const userDTO = {
         id: user.id,
         email: user.email,
+        accessToken,
       };
 
-      return resp.status(201).json({ user: userDTO, accessToken });
+      return resp.status(201).json({ user: userDTO });
     });
   } catch (err) {
     return resp.status(400).json({ error: err.message });
