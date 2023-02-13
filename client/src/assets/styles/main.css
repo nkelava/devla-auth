@@ -8,7 +8,8 @@
   width: 100vw;
 }
 
-.da-container {
+.da-container,
+.da-container-animation {
   background-color: var(--color-background-soft);
   border-radius: 8px;
   height: 480px;
@@ -17,7 +18,7 @@
   overflow: hidden;
 }
 
-.da-container::before {
+.da-container-animation::before {
   background: linear-gradient(0deg, transparent, var(--color-heading), var(--color-heading));
   content: "";
   height: 480px;
@@ -29,7 +30,7 @@
   animation: animate 6s linear infinite;
 }
 
-.da-container::after {
+.da-container-animation::after {
   background: linear-gradient(0deg, transparent, var(--color-heading), var(--color-heading));
   content: "";
   height: 480px;
