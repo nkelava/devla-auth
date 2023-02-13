@@ -4,34 +4,27 @@ import { defineStore } from "pinia";
 export const useUserStore = defineStore("user", {
   state: () => {
     return {
-      authUser: "",
-      accessToken: "",
+      user: {},
     };
-  },
-  getters: {
-    user: (state) => state.authUser,
   },
   actions: {
     async getUser() {
-      if (this.authUser === null) return;
+      if (this.user.id === null) return;
 
-      const data = await axios.get(`api/v1/user/${this.authUser.id}`);
+      const data = await axios.get(`api/v1/user/${this.user.id}`);
 
-      this.authUser = data.data.user;
+      this.user = { ...data.data.user, accessToken: this.user.accessToken };
     },
 
     async loginUser({ email, password }) {
-      axios.defaults.withCredentials = true;
-
       const data = await axios.post(`api/v1/auth/login`, {
         email,
         password,
       });
 
-      axios.defaults.headers.common["Authorization"] = "Bearer " + data.data.accessToken;
+      axios.defaults.headers.common["Authorization"] = "Bearer " + data.data.user.accessToken;
 
-      this.authUser = data.data.user;
-      this.accessToken = data.data.accessToken;
+      this.user = data.data.user;
     },
   },
   persist: true,
