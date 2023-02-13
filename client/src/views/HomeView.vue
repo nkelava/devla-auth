@@ -1,29 +1,22 @@
 <script setup>
 import { onMounted } from "vue";
 import { useUserStore } from "../stores/user.store";
-import { RouterLink } from "vue-router";
-import axios from "axios";
+import { RouterLink, useRouter } from "vue-router";
 
+const router = useRouter();
 const userStore = useUserStore();
 
 onMounted(async () => {
   await userStore.getUser();
 });
 
-const handleStatus = async () => {
+const handleLogout = async () => {
   try {
-    const data = await axios.get("api/v1/auth/status");
+    await userStore.logoutUser();
 
-    if (data.data.user) {
-      console.log("User: ", data.data.user);
-      return;
-    }
-
-    const accessToken = data.data.accessToken;
-    console.log("New access token: ", accessToken);
-
-    if (accessToken) await userStore.updateAccessToken(accessToken);
+    router.push({ name: "login" });
   } catch (error) {
+    console.log("first");
     console.log(error);
   }
 };
@@ -38,7 +31,8 @@ const handleStatus = async () => {
     <RouterLink :to="{ name: 'login' }" class="nav-item">Login</RouterLink>
     <RouterLink :to="{ name: 'register' }" class="nav-item">Register</RouterLink>
   </div>
-  <button :onclick="handleStatus">Status</button>
+
+  <button :onclick="handleLogout">Logout</button>
 </template>
 
 <style setup>

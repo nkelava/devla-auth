@@ -69,7 +69,7 @@ const logout = async (req, resp) => {
 
   if (!refreshToken) return resp.sendStatus(204);
 
-  const user = User.findOne({ refreshToken });
+  const user = await User.findOne({ refreshToken });
 
   if (!user) {
     resp.clearCookie("refresh_token", { httpOnly: true, sameSite: "None", secure: true });
@@ -77,7 +77,7 @@ const logout = async (req, resp) => {
   }
 
   await User.findOneAndUpdate(
-    { id: user.id },
+    { _id: user.id },
     { refreshToken: user.refreshToken.filter((token) => token !== refreshToken) },
     { new: true }
   );

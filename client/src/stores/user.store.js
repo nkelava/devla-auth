@@ -9,7 +9,7 @@ export const useUserStore = defineStore("user", {
   },
   actions: {
     async getUser() {
-      if (this.user.id === null) return;
+      if (!this.user.id) return;
 
       const data = await axios.get(`api/v1/user/${this.user.id}`);
 
@@ -17,7 +17,7 @@ export const useUserStore = defineStore("user", {
     },
 
     async loginUser({ email, password }) {
-      const data = await axios.post(`api/v1/auth/login`, {
+      const data = await axios.post("api/v1/auth/login", {
         email,
         password,
       });
@@ -25,6 +25,12 @@ export const useUserStore = defineStore("user", {
       axios.defaults.headers.common["Authorization"] = "Bearer " + data.data.user.accessToken;
 
       this.user = data.data.user;
+    },
+
+    async logoutUser() {
+      this.user = {};
+
+      await axios.post("api/v1/auth/logout");
     },
   },
   persist: true,
