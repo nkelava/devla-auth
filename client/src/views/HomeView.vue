@@ -143,7 +143,7 @@ const handleDelete = async () => {
 }
 
 .button-wannabe {
-  font-weight: 600;
+  font-size: 15px;
   border: none;
   padding: 8px 16px;
   border-radius: 8px;
