@@ -25,7 +25,7 @@ services:
       - .env
       - ./server/.env
     volumes:
-      - ./server:/app:ro
+      - ./server:/app
       - /app/node_modules
     depends_on:
       - mongo
@@ -42,7 +42,7 @@ services:
       - .env
       - ./client/.env
     volumes:
-      - ./client:/app:ro
+      - ./client:/app
       - /app/node_modules
     depends_on:
       - api
