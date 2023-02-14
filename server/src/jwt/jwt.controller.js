@@ -1,20 +1,21 @@
 const { verify } = require("jsonwebtoken");
 const User = require("../user/user.model");
 const { generateToken } = require("./jwt.utils");
+const { cookieConfig } = require("./cookie.config");
+const { jwtConfig } = require("./jwt.config");
 
 const handleRefreshToken = async (req, resp) => {
   const refreshToken = req.cookies.refresh_token;
 
   if (!refreshToken) return resp.sendStatus(401);
 
-  resp.clearCookie("refresh_token", { http: true, sameSite: "None", secure: true });
+  resp.clearCookie(cookieConfig.refresh_token.name, cookieConfig.refresh_token.options);
 
   const user = await User.findOne({ refreshToken });
 
   // Detected refresh token reuse
-
   if (!user) {
-    verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, decoded) => {
+    verify(refreshToken, jwtConfig.refresh_token.secret, async (err, decoded) => {
       if (err) return resp.sendStatus(403);
 
       await User.findOneAndUpdate({ id: decoded.id }, { refreshToken: [] }, { new: true });
@@ -25,14 +26,14 @@ const handleRefreshToken = async (req, resp) => {
 
   const newRefreshTokenArray = user.refreshToken.filter((token) => token !== refreshToken);
 
-  verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, decoded) => {
+  verify(refreshToken, jwtConfig.refresh_token.secret, async (err, decoded) => {
     if (err) {
       await User.findOneAndUpdate({ id: decoded.id }, { refreshToken: [...newRefreshTokenArray] }, { new: true });
     }
     if (err || user.id !== decoded.id) return resp.sendStatus(403);
 
-    const accessToken = generateToken(user, process.env.ACCESS_TOKEN_SECRET, "30s");
-    const newRefreshToken = generateToken(user, process.env.REFRESH_TOKEN_SECRET, "1d");
+    const accessToken = generateToken(user, jwtConfig.access_token.secret, jwtConfig.access_token.exp);
+    const newRefreshToken = generateToken(user, jwtConfig.refresh_token.secret, jwtConfig.refresh_token.exp);
 
     await User.findOneAndUpdate(
       { id: decoded.id },
@@ -40,13 +41,7 @@ const handleRefreshToken = async (req, resp) => {
       { new: true }
     );
 
-    resp.cookie("refresh_token", newRefreshToken, {
-      httpOnly: true,
-      sameSite: "None",
-      secure: true,
-      maxAge: 24 * 60 * 60 * 1000,
-    });
-
+    resp.cookie(cookieConfig.refresh_token.name, newRefreshToken, cookieConfig.refresh_token.options);
     resp.json({ accessToken });
   });
 };

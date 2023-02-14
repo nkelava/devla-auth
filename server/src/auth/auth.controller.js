@@ -1,6 +1,8 @@
 const bcrypt = require("bcrypt");
 const { generateToken } = require("../jwt/jwt.utils");
+const { cookieConfig } = require("../jwt/cookie.config");
 const User = require("../user/user.model");
+const { jwtConfig } = require("../jwt/jwt.config");
 
 const login = async (req, resp) => {
   const { email, password } = req.body;
@@ -20,8 +22,8 @@ const login = async (req, resp) => {
         return resp.status(404).json({ error: "Account with those credentials does not exist." });
       }
 
-      const accessToken = generateToken(user, process.env.ACCESS_TOKEN_SECRET, "30s");
-      const newRefreshToken = generateToken(user, process.env.REFRESH_TOKEN_SECRET, "1d");
+      const accessToken = generateToken(user, jwtConfig.access_token.secret, jwtConfig.access_token.exp);
+      const newRefreshToken = generateToken(user, jwtConfig.refresh_token.secret, jwtConfig.refresh_token.exp);
 
       let newRefreshTokenArray = !cookies
         ? user.refreshToken
@@ -29,14 +31,14 @@ const login = async (req, resp) => {
 
       if (cookies?.refresh_token) {
         const refreshToken = cookies.refresh_token;
-        const token = User.findOne({ refreshToken }).exec();
+        const token = await User.findOne({ refreshToken });
 
         // Detect refresh token reuse
         if (!token) {
           newRefreshTokenArray = [];
         }
 
-        resp.clearCookie("refresh_token", { httpOnly: true, sameSite: "None", secure: true });
+        resp.clearCookie(cookieConfig.refresh_token.name, cookieConfig.refresh_token.options);
       }
 
       await User.findOneAndUpdate(
@@ -45,12 +47,7 @@ const login = async (req, resp) => {
         { new: true }
       );
 
-      resp.cookie("refresh_token", newRefreshToken, {
-        httpOnly: true,
-        sameSite: "None",
-        secure: true,
-        maxAge: 24 * 60 * 60 * 1000,
-      });
+      resp.cookie(cookieConfig.refresh_token.name, newRefreshToken, cookieConfig.refresh_token.options);
 
       const userDTO = {
         id: user.id,
@@ -81,7 +78,7 @@ const logout = async (req, resp) => {
     );
   }
 
-  resp.clearCookie("refresh_token", { httpOnly: true, sameSite: "None", secure: true });
+  resp.clearCookie(cookieConfig.refresh_token.name, cookieConfig.refresh_token.options);
   resp.sendStatus(204);
 };
 
