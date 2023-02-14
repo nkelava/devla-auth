@@ -31,12 +31,12 @@ const handleLogin = async () => {
 
       <form @submit.prevent="handleLogin">
         <div class="da-input-wrapper">
-          <input v-model="loginStore.email" type="email" name="email" required />
+          <input v-model="loginStore.email" type="email" required />
           <span>Email</span>
           <i></i>
         </div>
         <div class="da-input-wrapper">
-          <input v-model="loginStore.password" type="password" name="password" required />
+          <input v-model="loginStore.password" type="password" required />
           <span>Password</span>
           <i></i>
         </div>

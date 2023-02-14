@@ -37,17 +37,17 @@ const handleRegister = async () => {
 
       <form @submit.prevent="handleRegister">
         <div class="da-input-wrapper">
-          <input v-model="registerStore.email" type="email" name="email" required />
+          <input v-model="registerStore.email" type="email" required />
           <span>Email</span>
           <i></i>
         </div>
         <div class="da-input-wrapper">
-          <input v-model="registerStore.password" type="password" name="password" required />
+          <input v-model="registerStore.password" type="password" required />
           <span>Password</span>
           <i></i>
         </div>
         <div class="da-input-wrapper">
-          <input v-model="registerStore.repeatedPassword" type="password" name="repeated" required />
+          <input v-model="registerStore.repeatedPassword" type="password" required />
           <span>Repeat password</span>
           <i></i>
         </div>
