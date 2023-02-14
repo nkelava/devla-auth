@@ -3,6 +3,6 @@ const jwtController = require("./jwt.controller");
 
 const router = express.Router();
 
-router.post("/refresh", jwtController.handleRefreshToken);
+router.get("/refresh", jwtController.handleRefreshToken);
 
 module.exports = router;
