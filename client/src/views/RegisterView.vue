@@ -17,7 +17,7 @@ const handleRegister = async () => {
       password: registerStore.password,
     });
 
-    registerStore.$reset();
+    registerStore.clearForm();
     router.push("/login");
   } catch (error) {
     console.log(error.response);
@@ -53,7 +53,9 @@ const handleRegister = async () => {
         </div>
         <input type="submit" value="Sign Up" />
         <div class="da-link-wrapper">
-          <RouterLink class="link da-link" :to="{ name: 'login' }">Already have an account? Login</RouterLink>
+          <RouterLink :onclick="registerStore.clearForm" class="link da-link" :to="{ name: 'login' }">
+            Already have an account? Login
+          </RouterLink>
         </div>
       </form>
     </div>

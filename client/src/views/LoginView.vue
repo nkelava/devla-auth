@@ -12,7 +12,7 @@ const handleLogin = async () => {
   try {
     await userStore.loginUser({ email, password });
 
-    loginStore.$reset();
+    loginStore.clearForm();
     router.push("/");
   } catch (err) {
     loginStore.error = err.response.data.error;
@@ -42,7 +42,9 @@ const handleLogin = async () => {
         </div>
         <input type="submit" value="Login" />
         <div class="da-link-wrapper">
-          <RouterLink class="link da-link" :to="{ name: 'register' }">Don't have an account? Sign up</RouterLink>
+          <RouterLink :onclick="loginStore.clearForm" class="link da-link" :to="{ name: 'register' }">
+            Don't have an account? Sign up
+          </RouterLink>
         </div>
       </form>
     </div>

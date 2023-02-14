@@ -8,6 +8,11 @@ export function createFormStore(formName, fields) {
         initState: { ...fields },
       };
     },
+    actions: {
+      clearForm() {
+        this.$reset();
+      },
+    },
     persist: true,
   });
 }
