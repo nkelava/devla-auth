@@ -14,39 +14,42 @@ const handleLogin = async () => {
 
     loginStore.clearForm();
     router.push("/");
-  } catch (err) {
-    loginStore.error = err.response.data.error;
+  } catch (error) {
+    loginStore.error = error.response.data.error;
   }
 };
 </script>
 
 <template>
-  <div class="da-container">
-    <div class="da-form-container">
-      <div v-if="loginStore.error">
-        {{ loginStore.error }}
+  <div class="da-d-flex-c-center">
+    <div class="da-container">
+      <div class="da-form-container">
+        <h2>Login</h2>
+
+        <form @submit.prevent="handleLogin">
+          <div class="da-input-wrapper">
+            <input v-model="loginStore.email" type="email" required />
+            <span>Email</span>
+            <i></i>
+          </div>
+          <div class="da-input-wrapper">
+            <input v-model="loginStore.password" type="password" required />
+            <span>Password</span>
+            <i></i>
+          </div>
+          <input type="submit" value="Login" />
+          <div class="da-link-wrapper">
+            <RouterLink :onclick="loginStore.clearForm" class="link da-link" :to="{ name: 'register' }">
+              Don't have an account? Sign up
+            </RouterLink>
+          </div>
+        </form>
       </div>
-
-      <h2>Login</h2>
-
-      <form @submit.prevent="handleLogin">
-        <div class="da-input-wrapper">
-          <input v-model="loginStore.email" type="email" required />
-          <span>Email</span>
-          <i></i>
-        </div>
-        <div class="da-input-wrapper">
-          <input v-model="loginStore.password" type="password" required />
-          <span>Password</span>
-          <i></i>
-        </div>
-        <input type="submit" value="Login" />
-        <div class="da-link-wrapper">
-          <RouterLink :onclick="loginStore.clearForm" class="link da-link" :to="{ name: 'register' }">
-            Don't have an account? Sign up
-          </RouterLink>
-        </div>
-      </form>
+    </div>
+    <div v-if="loginStore.error">
+      <div class="error-container da-d-flex-c-center">
+        <p class="error">{{ loginStore.error }}</p>
+      </div>
     </div>
   </div>
 </template>
