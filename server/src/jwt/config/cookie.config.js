@@ -5,7 +5,7 @@ const cookieConfig = {
       httpOnly: true,
       sameSite: "None",
       secure: true,
-      maxAge: 86400000, // 1d
+      maxAge: 2592000000, // 30d
     },
   },
 };
