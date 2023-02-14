@@ -9,10 +9,14 @@ const loginStore = useLoginStore();
 const handleLogin = async () => {
   const { email, password } = loginStore;
 
-  await userStore.loginUser({ email, password });
+  try {
+    await userStore.loginUser({ email, password });
 
-  loginStore.$reset();
-  router.push("/");
+    loginStore.$reset();
+    router.push("/");
+  } catch (err) {
+    loginStore.error = err.response.data.error;
+  }
 };
 </script>
 
