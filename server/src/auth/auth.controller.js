@@ -7,8 +7,6 @@ const login = async (req, resp) => {
   const { email, password } = req.body;
   const { cookies } = req;
 
-  if (!email || !password) return resp.status(400).json({ error: "Bad request." });
-
   try {
     const user = await User.findOne({ email });
 
