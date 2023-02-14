@@ -8,7 +8,7 @@ const validateToken = (req, resp, next) => {
   const accessToken = authHeader.split(" ")[1];
 
   verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-    if (err) return resp.sendStatus(403);
+    if (err || !decoded.id) return resp.status(403).json({ error: "Invalid token." });
 
     req.id = decoded.id;
     next();
