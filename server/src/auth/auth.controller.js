@@ -6,6 +6,8 @@ const login = async (req, resp) => {
   const { email, password } = req.body;
   const { cookies } = req;
 
+  if (!email || !password) return resp.status(400).json({ error: "Bad request." });
+
   try {
     const user = await User.findOne({ email });
 
@@ -88,7 +90,7 @@ const status = async (req, resp) => {
     const { id } = req;
     const user = await User.findOne({ id });
 
-    if (!user) resp.status(404).json({ error: "Not found." });
+    if (!user) return resp.status(404).json({ error: "Not found." });
 
     resp.status(201).json({ user });
   } catch (error) {
