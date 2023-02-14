@@ -33,7 +33,7 @@ exports.createUser = async (req, resp) => {
     });
 
     resp.status(201).json({ user: newUser });
-  } catch (err) {
+  } catch {
     resp.status(400).json({ error: "Bad request." });
   }
 };
@@ -49,7 +49,7 @@ exports.deleteUserById = async (req, resp) => {
     if (!user) return resp.status(400).json({ error: "Bad request." });
 
     resp.sendStatus(204);
-  } catch (err) {
-    resp.status(400).json({ status: "Bad request." });
+  } catch (error) {
+    resp.status(400).json({ error: "Bad request." });
   }
 };
