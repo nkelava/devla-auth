@@ -12,9 +12,7 @@
   --da-c-purple: #506cff;
   --da-c-purple-soft: #5a70e3;
   --da-c-purple-mute: #6776c2;
-
   --da-c-gray: #d5d5d5;
-
   --da-c-red: #f15555;
 
   --da-c-text-light-1: var(--da-c-black-soft);
@@ -31,7 +29,7 @@
   --color-background-soft: var(--da-c-white-soft);
   --color-background-mute: var(--da-c-white-mute);
 
-  --color-form-bg: var(--da-c-gray);
+  --color-form-bg: var(--color-form-bg: var(--da-c-gray););
   --color-heading: var(--da-c-text-light-3);
   --color-text: var(--da-c-text-light-1);
   --color-error: var(--da-c-text-error);
@@ -46,6 +44,7 @@
     --color-form-bg: var(--da-c-black-soft);
     --color-heading: var(--da-c-text-dark-2);
     --color-text: var(--da-c-text-dark-1);
+    --color-text-2: var(--color-form-bg: var(--da-c-gray);)
     --color-error: var(--da-c-text-error);
   }
 }

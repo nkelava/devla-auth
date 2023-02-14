@@ -46,9 +46,14 @@ const handleDelete = async () => {
           <h2 class="card-content__item">{{ userStore.user.email }}</h2>
         </div>
       </div>
-      <div class="buttons">
-        <input class="button" type="submit" :onclick="handleLogout" value="Logout" />
-        <input class="button btn-delete" type="submit" :onclick="handleDelete" value="Delete Account" />
+      <div class="button-wannabe-group">
+        <input class="button-wannabe" type="submit" :onclick="handleLogout" value="Logout" />
+        <input
+          class="button-wannabe button-wannabe--delete"
+          type="submit"
+          :onclick="handleDelete"
+          value="Delete Account"
+        />
       </div>
     </div>
   </div>
@@ -130,28 +135,30 @@ const handleDelete = async () => {
   color: var(--color-text);
 }
 
-.buttons {
+.button-wannabe-group {
   width: 100%;
   display: flex;
   justify-content: center;
-  bottom: -40px;
+  padding-bottom: 15px;
 }
 
-.button {
+.button-wannabe {
+  font-weight: 600;
   border: none;
   padding: 8px 16px;
   border-radius: 8px;
   margin: 14px;
-  color: white;
+  color: (--da-c-text-dark-1);
   background-color: var(--color-heading);
-  width: 150px;
+  width: 170px;
 }
 
-.btn-delete {
-  background-color: coral;
-}
-
-.button:hover {
+.button-wannabe:hover {
   opacity: 0.8;
+  scale: 1.03;
+}
+
+.button-wannabe--delete {
+  background: #ec4e24;
 }
 </style>

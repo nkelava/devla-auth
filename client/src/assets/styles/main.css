@@ -175,9 +175,3 @@
 .error {
   color: var(--color-error);
 }
-
-test {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
