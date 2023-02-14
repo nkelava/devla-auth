@@ -1,10 +1,12 @@
 const { verify } = require("jsonwebtoken");
 const { jwtConfig } = require("./config");
+const errorMessages = require("../error/error.consts");
 
 const validateToken = (req, resp, next) => {
   const authHeader = req.headers.authorization || req.headers.Authorization;
 
-  if (!authHeader?.startsWith("Bearer ")) return resp.status(401).json({ error: "Not Authenticated." });
+  if (!authHeader?.startsWith("Bearer "))
+    return resp.status(401).json({ error: errorMessages.ACCOUNT_NOT_AUTHENTICATED });
 
   const accessToken = authHeader.split(" ")[1];
 

@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt");
 const User = require("../user/user.model");
 const { generateToken } = require("../jwt/jwt.utils");
 const { cookieConfig, jwtConfig } = require("../jwt/config");
+const errorMessages = require("../error/error.consts");
 
 const login = async (req, resp) => {
   const { email, password } = req.body;
@@ -11,12 +12,12 @@ const login = async (req, resp) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return resp.status(404).json({ error: "Account with those credentials does not exist." });
+      return resp.status(404).json({ error: errorMessages.ACCOUNT_NOT_FOUND });
     }
 
     bcrypt.compare(password, user.password).then(async (isEqual) => {
       if (!isEqual) {
-        return resp.status(404).json({ error: "Account with those credentials does not exist." });
+        return resp.status(404).json({ error: errorMessages.ACCOUNT_NOT_FOUND });
       }
 
       const accessToken = generateToken(user, jwtConfig.access_token.secret, jwtConfig.access_token.exp);
@@ -52,10 +53,10 @@ const login = async (req, resp) => {
         accessToken,
       };
 
-      return resp.status(201).json({ user: userDTO });
+      return resp.status(200).json({ user: userDTO });
     });
-  } catch (err) {
-    return resp.status(400).json({ error: err.message });
+  } catch (error) {
+    return resp.status(500).json({ error: errorMessages.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -82,13 +83,14 @@ const logout = async (req, resp) => {
 const status = async (req, resp) => {
   try {
     const { id } = req;
+
     const user = await User.findOne({ id });
 
-    if (!user) return resp.status(404).json({ error: "Not found." });
+    if (!user) return resp.status(404).json({ error: errorMessages.ACCOUNT_NOT_FOUND });
 
-    resp.status(201).json({ user });
+    resp.status(200).json({ user });
   } catch (error) {
-    resp.status(400).json({ error: "Bad request." });
+    resp.status(500).json({ error: errorMessages.INTERNAL_SERVER_ERROR });
   }
 };
 

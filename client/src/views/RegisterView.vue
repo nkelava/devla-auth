@@ -8,7 +8,7 @@ const registerStore = useRegisterStore();
 
 const handleRegister = async () => {
   if (registerStore.password !== registerStore.repeatedPassword) {
-    registerStore.error = "Passwords do not match. 😊";
+    registerStore.error = "Passwords do not match 😊";
     return;
   }
 
