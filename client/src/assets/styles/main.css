@@ -161,13 +161,23 @@
   text-decoration: underline;
 }
 
-.error-container {
+.da-d-flex-c-center {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.error-container {
+  margin-top: 10px;
   width: 100%;
 }
 
 .error {
   color: var(--color-error);
+}
+
+test {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
