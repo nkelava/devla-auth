@@ -1,8 +1,7 @@
 const { verify } = require("jsonwebtoken");
 const User = require("../user/user.model");
 const { generateToken } = require("./jwt.utils");
-const { cookieConfig } = require("./cookie.config");
-const { jwtConfig } = require("./jwt.config");
+const { cookieConfig, jwtConfig } = require("./config");
 
 const handleRefreshToken = async (req, resp) => {
   const refreshToken = req.cookies.refresh_token;

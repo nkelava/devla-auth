@@ -1,8 +1,7 @@
 const bcrypt = require("bcrypt");
-const { generateToken } = require("../jwt/jwt.utils");
-const { cookieConfig } = require("../jwt/cookie.config");
 const User = require("../user/user.model");
-const { jwtConfig } = require("../jwt/jwt.config");
+const { generateToken } = require("../jwt/jwt.utils");
+const { cookieConfig, jwtConfig } = require("../jwt/config");
 
 const login = async (req, resp) => {
   const { email, password } = req.body;
