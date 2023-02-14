@@ -16,8 +16,8 @@
   --da-c-red: #f15555;
 
   --da-c-text-light-1: var(--da-c-black-soft);
-  --da-c-text-light-2: var(da-c-black-mute);
-  --da-c-text-light-3: var(--da-c-purple-soft);
+  --da-c-text-light-2: var(--da-c-black-mute);
+  --da-c-text-light-3: var(--da-c-purple-mute);
   --da-c-text-dark-1: var(--da-c-gray);
   --da-c-text-dark-2: var(--da-c-purple);
   --da-c-text-error: var(--da-c-red);
@@ -29,9 +29,9 @@
   --color-background-soft: var(--da-c-white-soft);
   --color-background-mute: var(--da-c-white-mute);
 
-  --color-form-bg: var(--color-form-bg: var(--da-c-gray););
+  --color-form-bg: var(--da-c-gray);
   --color-heading: var(--da-c-text-light-3);
-  --color-text: var(--da-c-text-light-1);
+  --color-text: var(--da-c-black-mute);
   --color-error: var(--da-c-text-error);
 }
 
