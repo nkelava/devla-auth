@@ -57,7 +57,7 @@ const handleDelete = async () => {
 <style>
 .card {
   border-radius: 25px;
-  background: var(--color-background-soft);
+  background: var(--color-form-bg);
 }
 
 .card-container {
@@ -105,7 +105,7 @@ const handleDelete = async () => {
 
 .overlay::after {
   border-radius: 0 25px 0 0;
-  background-color: var(--color-background-soft);
+  background-color: var(--color-form-bg);
 }
 
 .card-image-wrapper {
