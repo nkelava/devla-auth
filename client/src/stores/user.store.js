@@ -7,6 +7,9 @@ export const useUserStore = defineStore("user", {
       user: {},
     };
   },
+  getters: {
+    isLoggedIn: (state) => (state.user.id ? true : false),
+  },
   actions: {
     async getUser() {
       if (!this.user.id) return;
