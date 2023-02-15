@@ -1,6 +1,19 @@
 /* eslint-disable no-unused-vars */
 import { createRouter, createWebHistory } from "vue-router";
 import { useUserStore } from "../stores/user.store";
+import axios from "axios";
+
+const checkIsAuthenticated = async () => {
+  try {
+    axios.defaults.headers.common["Authorization"] = "Bearer " + useUserStore().user.accessToken;
+    await axios.get("api/v1/auth/status");
+
+    return true;
+  } catch (error) {
+    useUserStore().clearStore();
+    return false;
+  }
+};
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,9 +23,11 @@ const router = createRouter({
       alias: "/home",
       name: "home",
       component: () => import("../views/HomeView.vue"),
-      beforeEnter: (to, from, next) => {
-        // TODO: add auth check
-        [useUserStore().user.id ? next() : next({ name: "login" })];
+      beforeEnter: async (to, from, next) => {
+        if (!useUserStore().isLoggedIn) return next({ name: "login" });
+        const isAuthenticated = await checkIsAuthenticated();
+
+        return !isAuthenticated ? next({ name: "login" }) : next();
       },
     },
     {
@@ -20,7 +35,7 @@ const router = createRouter({
       name: "login",
       component: () => import("../views/LoginView.vue"),
       beforeEnter: (to, from, next) => {
-        useUserStore().user.id ? next({ name: "home" }) : next();
+        useUserStore().isLoggedIn ? next({ name: "home" }) : next();
       },
     },
     {
@@ -28,7 +43,7 @@ const router = createRouter({
       name: "register",
       component: () => import("../views/RegisterView.vue"),
       beforeEnter: (to, from, next) => {
-        useUserStore().user.id ? next({ name: "home" }) : next();
+        useUserStore().isLoggedIn ? next({ name: "home" }) : next();
       },
     },
   ],

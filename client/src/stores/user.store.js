@@ -2,17 +2,15 @@ import axios from "axios";
 import { defineStore } from "pinia";
 
 export const useUserStore = defineStore("user", {
-  state: () => {
-    return {
-      user: {},
-    };
-  },
+  state: () => ({
+    user: {},
+  }),
   getters: {
-    isLoggedIn: (state) => (state.user.id ? true : false),
+    isLoggedIn: (state) => !!state.user.id,
   },
   actions: {
     async getUser() {
-      if (!this.user.id) return;
+      if (!this.isLoggedIn) return;
 
       const data = await axios.get(`api/v1/user/${this.user.id}`);
 
@@ -31,13 +29,17 @@ export const useUserStore = defineStore("user", {
     },
 
     async logoutUser() {
-      this.user = {};
+      this.clearStore();
 
       await axios.post("api/v1/auth/logout");
     },
 
     async deleteUser() {
       await axios.delete(`api/v1/user/${this.user.id}`);
+    },
+
+    async clearStore() {
+      this.user = {};
     },
   },
   persist: true,
