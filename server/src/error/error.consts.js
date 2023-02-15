@@ -1,7 +1,8 @@
 const errorMessages = {
   ACCOUNT_ALREADY_EXISTS: "Sorry, account already exists.🥺",
   ACCOUNT_NOT_FOUND: "Account does not exist. 🫤",
-  ACCOUNT_NOT_AUTHENTICATED: "Sorry, your request could not be processed. 🥺",
+  ACCOUNT_UNAUTHORIZED: "Sorry, but you have no permisson to access the site.. 🥺",
+  ACCOUNT_FORBIDDEN: "Sorry, but you have no permisson to access the site. 🫤",
   EMAIL_WRONG_FORMAT: "Wrong email format e.g. example@gmail.com. 😊",
   EMAIL_EMPTY: "Email cannot be an empty field. 🫤",
   PASSWORD_SHORT: "Password should be at least 8 characters long. 😊",
