@@ -10,7 +10,20 @@ const checkIsAuthenticated = async () => {
 
     return true;
   } catch (error) {
-    useUserStore().clearStore();
+    return false;
+  }
+};
+
+const getNewAccessToken = async () => {
+  try {
+    const response = await axios.get("api/v1/jwt/refresh");
+    const newAccessToken = response.data.accessToken;
+
+    if (!newAccessToken) return false;
+
+    useUserStore().user.accessToken = newAccessToken;
+    return true;
+  } catch (error) {
     return false;
   }
 };
@@ -27,7 +40,16 @@ const router = createRouter({
         if (!useUserStore().isLoggedIn) return next({ name: "login" });
         const isAuthenticated = await checkIsAuthenticated();
 
-        return !isAuthenticated ? next({ name: "login" }) : next();
+        if (!isAuthenticated) {
+          const newAccessToken = await getNewAccessToken();
+
+          if (!newAccessToken) {
+            useUserStore().clearStore();
+            return next({ name: "login" });
+          }
+        }
+
+        next();
       },
     },
     {
