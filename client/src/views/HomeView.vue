@@ -25,7 +25,7 @@ const handleDelete = async () => {
   try {
     await userStore.deleteUser();
 
-    router.push({ name: "login" });
+    handleLogout();
   } catch (error) {
     console.log(error);
   }

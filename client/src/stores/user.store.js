@@ -38,8 +38,6 @@ export const useUserStore = defineStore("user", {
 
     async deleteUser() {
       await axios.delete(`api/v1/user/${this.user.id}`);
-
-      this.logoutUser();
     },
   },
   persist: true,
