@@ -12,7 +12,7 @@ const handleLogin = async () => {
   try {
     await userStore.loginUser({ email, password });
 
-    loginStore.clearForm();
+    loginStore.clearStore();
     router.push("/");
   } catch (error) {
     loginStore.error = error.response.data.error;
