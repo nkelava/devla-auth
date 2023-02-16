@@ -30,7 +30,6 @@ export const useUserStore = defineStore("user", {
 
     async logoutUser() {
       this.clearStore();
-
       await axios.post("api/v1/auth/logout");
     },
 
@@ -39,7 +38,7 @@ export const useUserStore = defineStore("user", {
     },
 
     async clearStore() {
-      this.user = {};
+      this.$reset();
     },
   },
   persist: true,
