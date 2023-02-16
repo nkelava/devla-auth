@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { createRouter, createWebHistory } from "vue-router";
-import { useUserStore } from "../stores/user.store";
+import { useUserStore } from "../stores";
 import axios from "axios";
 
 const checkIsAuthenticated = async () => {
@@ -19,12 +19,11 @@ const getNewAccessToken = async () => {
     const response = await axios.get("api/v1/jwt/refresh");
     const newAccessToken = response.data.accessToken;
 
-    if (!newAccessToken) return false;
+    if (!newAccessToken) return null;
 
-    useUserStore().user.accessToken = newAccessToken;
-    return true;
+    return newAccessToken;
   } catch (error) {
-    return false;
+    return null;
   }
 };
 
@@ -47,6 +46,8 @@ const router = createRouter({
             useUserStore().clearStore();
             return next({ name: "login" });
           }
+
+          useUserStore().user.accessToken = newAccessToken;
         }
 
         next();
