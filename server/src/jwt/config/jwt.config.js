@@ -1,10 +1,10 @@
 const jwtConfig = {
   access_token: {
-    exp: "30s",
+    exp: "7d",
     secret: process.env.ACCESS_TOKEN_SECRET,
   },
   refresh_token: {
-    exp: "1m",
+    exp: "30d",
     secret: process.env.REFRESH_TOKEN_SECRET,
   },
 };
