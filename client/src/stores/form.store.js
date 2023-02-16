@@ -9,7 +9,7 @@ export function createFormStore(formName, fields) {
       };
     },
     actions: {
-      clearForm() {
+      clearStore() {
         this.$reset();
       },
     },
