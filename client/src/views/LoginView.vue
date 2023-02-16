@@ -39,7 +39,7 @@ const handleLogin = async () => {
           </div>
           <input type="submit" value="Login" />
           <div class="da-link-wrapper">
-            <RouterLink :onclick="loginStore.clearForm" class="link da-link" :to="{ name: 'register' }">
+            <RouterLink :onclick="loginStore.clearStore" class="link da-link" :to="{ name: 'register' }">
               Don't have an account? Sign up
             </RouterLink>
           </div>
