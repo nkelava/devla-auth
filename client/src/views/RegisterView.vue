@@ -1,5 +1,5 @@
 <script setup>
-import axios from "axios";
+import axios from "../api/axios";
 import { RouterLink, useRouter } from "vue-router";
 import { useRegisterStore } from "../stores";
 
