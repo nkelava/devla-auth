@@ -19,5 +19,3 @@ More detailed instructions will be added later on, but for now follow these the 
 6. Now you can go to your browser and visit `http://localhost:8001`.
 
 7. And that should be it. Hopefully, you can see the login page and you can start playing with the app. :)
-
-In case of any problems please check out your port. Check out that used ports aren't already used by some other processes.
