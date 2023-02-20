@@ -12,13 +12,13 @@ export const useUserStore = defineStore("user", {
     async getUser() {
       if (!this.isLoggedIn) return;
 
-      const data = await axios.get(`api/v1/user/${this.user.id}`);
+      const response = await axios.get(`api/v1/user/${this.user.id}`);
 
-      this.user = { ...data.data.user, accessToken: this.user.accessToken };
+      this.user = { ...response.data.user, accessToken: this.user.accessToken };
     },
 
     async loginUser({ email, password }) {
-      const data = await axios.post(
+      const response = await axios.post(
         "api/v1/auth/login",
         {
           email,
@@ -27,7 +27,7 @@ export const useUserStore = defineStore("user", {
         { withCredentials: true }
       );
 
-      this.user = data.data.user;
+      this.user = response.data.user;
     },
 
     async logoutUser() {
