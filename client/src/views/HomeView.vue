@@ -17,7 +17,11 @@ const handleLogout = async () => {
 
     router.push({ name: "login" });
   } catch (error) {
-    console.log(error);
+    if (error.response) {
+      console.log(error.response.data.error);
+    } else {
+      console.log(`Error: ${error.message}`);
+    }
   }
 };
 
@@ -27,7 +31,11 @@ const handleDelete = async () => {
 
     handleLogout();
   } catch (error) {
-    console.log(error);
+    if (error.response) {
+      console.log(error.response.data.error);
+    } else {
+      console.log(`Error: ${error.message}`);
+    }
   }
 };
 </script>

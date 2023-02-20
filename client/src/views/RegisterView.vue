@@ -21,7 +21,11 @@ const handleRegister = async () => {
     registerStore.clearStore();
     router.push("/login");
   } catch (error) {
-    registerStore.error = error.response.data.error;
+    if (error.response) {
+      registerStore.error = error.response.data.error;
+    } else {
+      console.log(`Error: ${error.message}`);
+    }
   }
 };
 </script>

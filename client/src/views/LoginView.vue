@@ -15,7 +15,11 @@ const handleLogin = async () => {
     loginStore.clearStore();
     router.push("/");
   } catch (error) {
-    loginStore.error = error.response.data.error;
+    if (error.response) {
+      loginStore.error = error.response.data.error;
+    } else {
+      console.log(`Error: ${error.message}`);
+    }
   }
 };
 </script>
