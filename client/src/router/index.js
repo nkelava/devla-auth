@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { createRouter, createWebHistory } from "vue-router";
 import { useUserStore } from "../stores";
-import axios, { axiosPrivate } from "../api/axios";
+import { axiosPrivate } from "../api/axios";
 
 const checkIsAuthenticated = async () => {
   try {
@@ -15,10 +15,8 @@ const checkIsAuthenticated = async () => {
 
 const getNewAccessToken = async () => {
   try {
-    const response = await axios.get("api/v1/jwt/refresh", {
-      withCredentials: true,
-    });
-    const newAccessToken = response.data.accessToken;
+    const response = await axiosPrivate.get("api/v1/jwt/refresh");
+    const newAccessToken = response?.data?.accessToken;
 
     if (!newAccessToken) return null;
 

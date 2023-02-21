@@ -5,16 +5,12 @@ const defaultOptions = {
   baseURL: import.meta.env.VITE_API_BASE_URL,
 };
 
-const credentialOptions = {
-  ...defaultOptions,
-  withCredentials: true,
-};
-
 const privateOptions = {
-  ...credentialOptions,
+  ...defaultOptions,
   headers: {
     Authorization: `Bearer ${accessToken}`,
   },
+  withCredentials: true,
 };
 
-export { defaultOptions, credentialOptions, privateOptions };
+export { defaultOptions, privateOptions };
